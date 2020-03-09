@@ -1,0 +1,247 @@
+{
+  "cards": [
+    {
+      "id": "Card1",
+      "type": "ActionCard",
+      "name": "Magic bolts",
+      "text": "Deal 2 magical damage to 4 random enemies.",
+	  "asset": "Card/MagicBolts",
+      "resource": "Mana",
+      "cost": 1,
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 2,
+            "type": "Magical"
+          },
+          "targetSelector": {
+            "type": "RandomTarget",
+            "mark": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            },
+            "count": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card2",
+      "type": "ActionCard",
+      "name": "Freezing wind",
+      "text": "Deal 4 magical damage to all enemy minions.",
+	  "asset": "Card/FreezingWind",
+      "resource": "Mana",
+      "cost": 1,
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 4,
+            "type": "Magical"
+          },
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card3",
+      "type": "ActionCard",
+      "name": "Foresight",
+      "text": "Draw 2 cards",
+	  "asset": "Card/Foresight",
+      "resource": "Mana",
+      "cost": 1,
+      "abilities": [
+        {
+          "action": "DrawCardsAction",
+          "info": 2
+        }
+      ]
+    },
+    {
+      "id": "Card4",
+      "type": "ActionCard",
+      "name": "Fire bolt",
+      "text": "Deal 10 magical damage",
+	  "asset": "Card/FireBolt",
+      "resource": "Mana",
+      "cost": 2,
+      "target": {
+        "allowed": {
+          "alliance": "Any",
+          "zone": "Party"
+        },
+        "preferred": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        }
+      },
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 10,
+            "type": "Magical"
+          },
+          "targetSelector": {
+            "type": "ManualTarget"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card5",
+      "type": "ActionCard",
+      "name": "Slash",
+      "text": "Deal 6 physical damage",
+	  "asset": "Card/Slash",
+      "resource": "Mana",
+      "cost": 1,
+      "target": {
+        "allowed": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        },
+        "preferred": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        }
+      },
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 6,
+            "type": "Physical"
+          },
+          "targetSelector": {
+            "type": "ManualTarget"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card6",
+      "type": "ConsumableCard",
+      "name": "Health Potion",
+      "text": "Consume to heal 10 health",
+	  "asset": "Card/HealthPotion",
+      "resource": "Mana",
+      "cost": 0,
+      "target": {
+        "allowed": {
+          "alliance": "Any",
+          "zone": "Party"
+        },
+        "preferred": {
+          "alliance": "Ally",
+          "zone": "Party"
+        }
+      },
+      "abilities": [
+        {
+          "action": "HealAction",
+          "info": 10,
+          "targetSelector": {
+            "type": "ManualTarget"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card7",
+      "type": "ActionCard",
+      "name": "Life drain",
+      "text": "Deal 4 magical damage, then heal for 2",
+	  "asset": "Card/LifeDrain",
+      "resource": "Mana",
+      "cost": 1,
+      "target": {
+        "allowed": {
+          "alliance": "Any",
+          "zone": "Party"
+        },
+        "preferred": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        }
+      },
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 4,
+            "type": "Magical"
+          },
+          "targetSelector": {
+            "type": "ManualTarget"
+          }
+        },
+        {
+          "action": "HealAction",
+          "info": 2,
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Ally",
+              "zone": "Party"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card8",
+      "type": "ActionCard",
+      "name": "Reckless charge",
+      "text": "Deal 15 physical damage to the enemy and receive 5 true damage",
+	  "asset": "Card/RekklessCharge",
+      "resource": "Mana",
+      "cost": 2,
+      "target": {
+        "allowed": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        },
+        "preferred": {
+          "alliance": "Enemy",
+          "zone": "Party"
+        }
+      },
+      "abilities": [
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 15,
+            "type": "Physical"
+          },
+          "targetSelector": {
+            "type": "ManualTarget"
+          }
+        },
+        {
+          "action": "DamageAction",
+          "info": {
+            "amount": 5,
+            "type": "True"
+          },
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Ally",
+              "zone": "Party"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

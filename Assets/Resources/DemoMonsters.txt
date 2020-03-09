@@ -1,0 +1,271 @@
+{
+  "monsters": [
+	{
+      "id": "DemoMonster0",
+      "armor": 0,
+      "magicresist": 0,
+      "hitpoints": 30,
+      "cards": [
+        {
+          "id": "DemoMonster0Card1",
+		  "text": "Heal 1 health point",
+          "frequency": 1,
+          "abilities": [
+            {
+              "action": "HealAction",
+              "info": 1,
+              "targetSelector": {
+                "type": "AllTarget",
+                "mark": {
+                  "alliance": "Ally",
+                  "zone": "Party"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DemoMonster1",
+      "armor": 2,
+      "magicresist": 0,
+      "hitpoints": 20,
+      "cards": [
+        {
+          "id": "DemoMonster1Card1",
+		  "text": "Deal 3 damage to all enemies",
+          "frequency": 2,
+          "abilities": [
+            {
+              "action": "DamageAction",
+              "info": {
+                "amount": 3,
+                "type": "Physical"
+              },
+              "targetSelector": {
+                "type": "AllTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Party"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "DemoMonster1Card2",
+		  "text": "Deal 2 physical damage to 3 random targets",
+          "frequency": 3,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            }
+          },
+          "abilities": [
+            {
+              "action": "DamageAction",
+              "info": {
+                "amount": 2,
+                "type": "Physical"
+              },
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Party"
+                },
+                "count": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DemoMonster2",
+      "armor": 0,
+      "magicresist": 3,
+      "hitpoints": 20,
+      "cards": [
+        {
+          "id": "DemoMonster2Card1",
+		  "text": "Deal 4 damage to random target",
+          "frequency": 1,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            }
+          },
+          "abilities": [
+            {
+              "action": "DamageAction",
+              "info": {
+                "amount": 4,
+                "type": "Magical"
+              },
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Party"
+                },
+				"count": 1 
+              }
+            }
+          ]
+        },
+        {
+          "id": "DemoMonster2Card2",
+		  "text": "Heal for 5 health points.",
+          "frequency": 2,
+          "target": {
+            "allowed": {
+              "alliance": "Any",
+              "zone": "Party"
+            }
+          },
+          "abilities": [
+            {
+              "action": "HealAction",
+              "info": 5,
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Ally",
+                  "zone": "Party"
+                },
+                "count": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "DemoMonster2Card3",
+		  "text": "Burn a random enemy card",
+          "frequency": 3,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Hand"
+            }
+          },
+          "abilities": [
+            {
+              "action": "BurnCardsAction",
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Hand"
+                },
+                "count": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+	{
+      "id": "DemoMonsterBoss",
+      "armor": 3,
+      "magicresist": 3,
+      "hitpoints": 40,
+      "cards": [
+        {
+          "id": "DemoMonsterBossCard1",
+		  "text": "Deal 8 physical damage to target",
+          "frequency": 2,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            }
+          },
+          "abilities": [
+            {
+              "action": "DamageAction",
+              "info": {
+                "amount": 8,
+                "type": "Physical"
+              },
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Party"
+                },
+				"count": 1 
+              }
+            }
+          ]
+        },
+        {
+          "id": "DemoMonsterBossCard2",
+		  "text": "Deal 8 magic damage and heal for 3",
+          "frequency": 3,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Party"
+            }
+          },
+          "abilities": [
+            {
+              "action": "DamageAction",
+              "info": {
+				"type": "Magical",
+				"amount": 8
+			  },
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Party"
+                },
+                "count": 1
+              }
+            },
+            {
+              "action": "HealAction",
+              "info": 3,
+              "targetSelector": {
+                "type": "RandomTarget",
+                "mark": {
+                  "alliance": "Ally",
+                  "zone": "Party"
+                },
+                "count": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "DemoMonster2Card3",
+		  "text": "Burn the player's hand",
+          "frequency": 5,
+          "target": {
+            "allowed": {
+              "alliance": "Enemy",
+              "zone": "Hand"
+            }
+          },
+          "abilities": [
+            {
+              "action": "BurnCardsAction",
+              "targetSelector": {
+                "type": "AllTarget",
+                "mark": {
+                  "alliance": "Enemy",
+                  "zone": "Hand"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
