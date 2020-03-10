@@ -72,6 +72,7 @@ public class DamageView : MonoBehaviour
             popup.transform.localScale = Vector3.one;
             var poolable = popup.GetComponent<Poolable>();
             popupPooler.Enqueue(poolable);
+            yield return true;
         }
     }
 

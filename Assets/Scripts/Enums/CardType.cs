@@ -17,7 +17,9 @@ namespace Assets.Scripts.Enums
         Monster = 1 << 5,
         Passive = 1 << 6,
 
-        Curse = Consumable | Event
+        Curse = Consumable | Event,
+
+        Any = 255
     }
 
     public static class CardTypeExtensions

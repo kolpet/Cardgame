@@ -58,6 +58,7 @@ namespace Assets.Scripts.Components
                 var overDraw = action is OverdrawAction;
                 var addCard = playerView.hand.AddCard(cardView.transform, showPreview, overDraw);
                 while(addCard.MoveNext()) { yield return null; }
+                yield return true;
             }
         }
     }

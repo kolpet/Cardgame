@@ -10,6 +10,7 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Models.Abilities;
 using Assets.Scripts.Models.Cards;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Systems
@@ -20,10 +21,13 @@ namespace Assets.Scripts.Systems
         public const string DeckChangedNotification = "PlayerSystem.DeckChangedNotification";
         public const string GraveyardChangedNotification = "PlayerSystem.GraveyardChangedNotification";
 
+        IEnumerator cardDrawEnumerator;
+
         public void Awake()
         {
             this.AddObserver(OnPerformChangeTurn, Global.PerformNotification<ChangeTurnAction>(), Container);
             this.AddObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>(), Container);
+            this.AddObserver(OnPrepareDrawCards, Global.PrepareNotification<DrawCardsAction>(), Container);
             this.AddObserver(OnPerformDrawCards, Global.PerformNotification<DrawCardsAction>(), Container);
             this.AddObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.AddObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
@@ -35,6 +39,7 @@ namespace Assets.Scripts.Systems
         {
             this.RemoveObserver(OnPerformChangeTurn, Global.PerformNotification<ChangeTurnAction>(), Container);
             this.RemoveObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>(), Container);
+            this.RemoveObserver(OnPrepareDrawCards, Global.PrepareNotification<DrawCardsAction>(), Container);
             this.RemoveObserver(OnPerformDrawCards, Global.PerformNotification<DrawCardsAction>(), Container);
             this.RemoveObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.RemoveObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
@@ -62,45 +67,15 @@ namespace Assets.Scripts.Systems
             }
         }
 
-        void OnPerformDrawCards(object sender, object args)
+        void OnPrepareDrawCards(object sender, object args)
         {
             var action = args as DrawCardsAction;
-            var player = action.Player as Player;
-            int deckCount = player[Zones.Deck].Count;
+            cardDrawEnumerator = DrawCards(action);
+        }
 
-            action.cards = new List<Card>();
-            for (int i = 0; i < action.amount; i++)
-            {
-                if(player.hand.Count < player.maxHand) //Has space in hand
-                {
-                    if(player.deck.Count == 0) //Deck is empty
-                    {
-                        if(player.graveyard.Count == 0) //Graveyard empty, draw fatigue
-                        {
-                            var fatigueAction = new FatigueAction(player);
-                            Container.AddReaction(fatigueAction);
-                        }
-                        else //Shuffle graveyard into deck
-                        {
-                            for (int j = player.graveyard.Count - 1; j >= 0; j--)
-                                ChangeZone(player.graveyard[j], Zones.Deck);
-                            this.PostNotification(DeckShuffledNotification, player);
-                        }
-                    }
-                    if (player.deck.Count > 0) //Draw
-                    {
-                        var draw = player[Zones.Deck].Draw(1)[0];
-                        action.cards.Add(draw);
-                        ChangeZone(draw, Zones.Hand);
-                        this.PostNotification(DeckChangedNotification, player);
-                    }
-                }
-                else //Overdraw
-                {
-                    var overDrawAction = new OverdrawAction(player, 1);
-                    Container.AddReaction(overDrawAction);
-                }
-            }
+        void OnPerformDrawCards(object sender, object args)
+        {
+            cardDrawEnumerator.MoveNext();
         }
 
         void OnPerformFatigue(object sender, object args)
@@ -161,6 +136,47 @@ namespace Assets.Scripts.Systems
         {
             var cardSystem = Container.GetAspect<CardSystem>();
             cardSystem.ChangeZone(card, zone, toPlayer);
+        }
+
+        IEnumerator DrawCards(DrawCardsAction action)
+        {
+            var player = action.Player as Player;
+            int deckCount = player[Zones.Deck].Count;
+
+            action.cards = new List<Card>();
+            for (int i = 0; i < action.amount; i++)
+            {
+                if (player.hand.Count < player.maxHand) //Has space in hand
+                {
+                    if (player.deck.Count == 0) //Deck is empty
+                    {
+                        if (player.graveyard.Count == 0) //Graveyard empty, draw fatigue
+                        {
+                            var fatigueAction = new FatigueAction(player);
+                            Container.AddReaction(fatigueAction);
+                        }
+                        else //Shuffle graveyard into deck
+                        {
+                            for (int j = player.graveyard.Count - 1; j >= 0; j--)
+                                ChangeZone(player.graveyard[j], Zones.Deck);
+                            this.PostNotification(DeckShuffledNotification, player);
+                        }
+                    }
+                    if (player.deck.Count > 0) //Draw
+                    {
+                        var draw = player[Zones.Deck].Draw(1)[0];
+                        action.cards.Add(draw);
+                        ChangeZone(draw, Zones.Hand);
+                        this.PostNotification(DeckChangedNotification, player);
+                    }
+                }
+                else //Overdraw
+                {
+                    var overDrawAction = new OverdrawAction(player, 1);
+                    Container.AddReaction(overDrawAction);
+                }
+                yield return null;
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ using Assets.Scripts.Common.Pooling.Poolers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -14,8 +13,6 @@ namespace Assets.Scripts.Common.AssetManagement
 {
     public class AddressableLoader : MonoBehaviour
     {
-        [SerializeField] private List<AddressableAssetGroup> assetGroups;
-
         private readonly HashSet<GameObject> Collection = new HashSet<GameObject>();
 
         private readonly Dictionary<string, UnityEngine.Object> loadedAssets =
