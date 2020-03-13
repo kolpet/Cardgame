@@ -17,6 +17,8 @@ namespace Assets.Scripts.Components
     [RequireComponent(typeof(InputHandler))]
     public class DragToPlayCardController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        public TargettingView targettingView;
+
         public float untargetedPlayDistance = 2f;
 
         //InputHandler inputHandler;
@@ -28,6 +30,7 @@ namespace Assets.Scripts.Components
         StateMachine stateMachine;
         CardView activeCardView;
         Card target;
+        int pointerId;
 
         void Awake()
         {
@@ -87,6 +90,7 @@ namespace Assets.Scripts.Components
                 if (!(owner.gameStateMachine.currentState is PlayerIdleState))
                     return;
 
+                owner.pointerId = eventData.pointerId;
                 var press = eventData.rawPointerPress;
                 var view = (press != null) ? press.GetComponentInParent<CardView>() : null;
                 if (view == null ||
@@ -127,6 +131,21 @@ namespace Assets.Scripts.Components
 
         private class TargetState : BaseControllerState, IEndDragHandler
         {
+            Coroutine coroutine;
+
+            public override void Enter()
+            {
+                base.Enter();
+                coroutine = owner.StartCoroutine(Follow());
+            }
+
+            public override void Exit()
+            {
+                base.Exit();
+                owner.StopCoroutine(coroutine);
+                owner.targettingView.gameObject.SetActive(false);
+            }
+
             public void OnEndDrag(PointerEventData eventData)
             {
                 var hover = eventData.pointerCurrentRaycast.gameObject;
@@ -143,6 +162,26 @@ namespace Assets.Scripts.Components
                 }
                 owner.stateMachine.ChangeState<CompleteState>();
             }
+
+            private IEnumerator Follow()
+            {
+                Vector3 position;
+                IEnumerator targetting = owner.targettingView.Targetting();
+                owner.targettingView.gameObject.SetActive(true);
+                while (true)
+                {
+                    Debug.Log("test");
+                    if (owner.pointerId < 0)
+                        position = Input.mousePosition;
+                    else
+                        position = Input.GetTouch(0).position;
+                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(position);
+                    worldPos.y = 0;
+                    owner.targettingView.transform.position = worldPos;
+                    targetting.MoveNext();
+                    yield return null;
+                }
+            }
         }
 
         private class FinishInputState : BaseControllerState, IDragHandler, IEndDragHandler
@@ -154,11 +193,6 @@ namespace Assets.Scripts.Components
             {
                 base.Enter();
                 coroutine = Follow();
-            }
-
-            public override void Exit()
-            {
-                base.Exit();
             }
 
             public void OnDrag(PointerEventData eventData)
