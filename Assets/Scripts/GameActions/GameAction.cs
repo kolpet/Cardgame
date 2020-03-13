@@ -7,6 +7,8 @@ namespace Assets.Scripts.GameActions
 {
     public class GameAction
     {
+        public const string actionNameSpace = "Assets.Scripts.GameActions.";
+
         public readonly int id;
 
         public Combatant Player { get; set; }

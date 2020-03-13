@@ -10,10 +10,11 @@ namespace Assets.Scripts.Enums
     public enum Zones
     {
         None = 0,
-        Party = 1 << 0,
-        Deck = 1 << 1,
-        Hand = 1 << 2,
-        Graveyard = 1 << 3,
+        Self = 1 << 0,
+        Party = 1 << 1,
+        Deck = 1 << 2,
+        Hand = 1 << 3,
+        Graveyard = 1 << 4,
         Active = Party | Hand
     }
     public static class ZonesExtensions

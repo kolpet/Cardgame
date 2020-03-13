@@ -210,10 +210,6 @@
         "allowed": {
           "alliance": "Enemy",
           "zone": "Party"
-        },
-        "preferred": {
-          "alliance": "Enemy",
-          "zone": "Party"
         }
       },
       "abilities": [
@@ -232,6 +228,42 @@
           "info": {
             "amount": 5,
             "type": "True"
+          },
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Ally",
+              "zone": "Party"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Card9",
+      "type": "ActionCard",
+      "name": "Poison Cloud",
+      "text": "Effect: Deal 2 poison damage each turn",
+	  "asset": "Card/PoisonSpit",
+      "resource": "Mana",
+      "cost": 2,
+      "abilities": [
+        {
+          "action": "ApplyEffectAction",
+		  "trigger": "NextTurnAction"
+          "info": {
+            "action": "DamageAction",
+			"info": {
+			  "amount": 2,
+			  "type": "True"
+			},
+			"targetSelector": {
+			  "type": "AllTarget",
+			  "mark": {
+			    "alliance": "Enemy",
+			    "zone": "Party"
+			  }
+			}
           },
           "targetSelector": {
             "type": "AllTarget",

@@ -14,8 +14,6 @@ namespace Assets.Scripts.Systems
 {
     public class AbilitySystem : Aspect, IObserve
     {
-        const string actionNameSpace = "Assets.Scripts.GameActions.";
-
         public void Awake()
         {
             this.AddObserver(OnPerformPlayCardAction, Global.PerformNotification<PlayCardAction>(), Container);
@@ -45,7 +43,7 @@ namespace Assets.Scripts.Systems
         void OnPerformAbilityAction(object sender, object args)
         {
             var action = args as AbilityAction;
-            var type = Type.GetType(actionNameSpace + action.ability.ActionName);
+            var type = Type.GetType(GameAction.actionNameSpace + action.ability.ActionName);
             var instance = Activator.CreateInstance(type) as GameAction;
             var loader = instance as IAbilityLoader;
             if (loader != null)
