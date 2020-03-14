@@ -155,12 +155,12 @@ namespace Assets.Scripts.Components
                 if(view != null)
                 {
                     target.selected = view.card;
+                    owner.stateMachine.ChangeState<CompleteState>();
                 }
                 else
                 {
-                    target.selected = null;
+                    owner.stateMachine.ChangeState<CancellingState>();
                 }
-                owner.stateMachine.ChangeState<CompleteState>();
             }
 
             private IEnumerator Follow()
@@ -170,14 +170,14 @@ namespace Assets.Scripts.Components
                 owner.targettingView.gameObject.SetActive(true);
                 while (true)
                 {
-                    Debug.Log("test");
                     if (owner.pointerId < 0)
                         position = Input.mousePosition;
                     else
                         position = Input.GetTouch(0).position;
-                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(position);
-                    worldPos.y = 0;
-                    owner.targettingView.transform.position = worldPos;
+
+                    position = Camera.main.ScreenToWorldPoint(position);
+                    position.y = 0;
+                    owner.targettingView.transform.position = position;
                     targetting.MoveNext();
                     yield return null;
                 }
@@ -188,6 +188,7 @@ namespace Assets.Scripts.Components
         {
             IEnumerator coroutine;
             Vector3 position;
+            Vector3 startPosition;
 
             public override void Enter()
             {
@@ -204,17 +205,20 @@ namespace Assets.Scripts.Components
             public void OnEndDrag(PointerEventData eventData)
             {
                 var hover = eventData.pointerCurrentRaycast.gameObject;
-                var view = (hover != null) ? hover.GetComponentInParent<BattlefieldCardView>() : null;
-                if (view != null)
-                    owner.target = view.card;
-                owner.stateMachine.ChangeState<CompleteState>();
+                if(Vector3.Distance(startPosition, eventData.lastPress.transform.position) > owner.untargetedPlayDistance)
+                    owner.stateMachine.ChangeState<CompleteState>();
+                else
+                    owner.stateMachine.ChangeState<CancellingState>();
             }
 
             private IEnumerator Follow()
             {
+                Vector3 worldPos;
+                startPosition = Camera.main.ScreenToWorldPoint(position);
+                startPosition.y = 0;
                 while (true)
                 {
-                    Vector3 worldPos = Camera.main.ScreenToWorldPoint(position);
+                    worldPos = Camera.main.ScreenToWorldPoint(position);
                     worldPos.y = 0;
                     owner.activeCardView.transform.position = worldPos;
                     yield return null;
