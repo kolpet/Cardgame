@@ -19,6 +19,9 @@ namespace Assets.Scripts.Enums
 
         Curse = Consumable | Event,
 
+        Effective = Action | Consumable | Event,
+        Playable =  Effective | Equip | Passive,
+
         Any = 255
     }
 

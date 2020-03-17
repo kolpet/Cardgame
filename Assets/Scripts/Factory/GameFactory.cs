@@ -57,6 +57,7 @@ namespace Assets.Scripts.Factory
             game.AddAspect<ConsumableCardSystem>();
             game.AddAspect<EventCardSystem>();
             game.AddAspect<CurseCardSystem>();
+            game.AddAspect<EquipCardSystem>();
 
             return game;
         }

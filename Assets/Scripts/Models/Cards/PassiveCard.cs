@@ -10,6 +10,6 @@ namespace Assets.Scripts.Models.Cards
 {
     public class PassiveCard : Card, IPlayable
     {
-        public override CardType Type => CardType.None;
+        public override CardType Type => CardType.Passive;
     }
 }

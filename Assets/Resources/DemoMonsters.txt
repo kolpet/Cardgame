@@ -4,7 +4,7 @@
       "id": "DemoMonster0",
       "armor": 0,
       "magicresist": 0,
-      "hitpoints": 30,
+      "hitpoints": 20,
       "cards": [
         {
           "id": "DemoMonster0Card1",

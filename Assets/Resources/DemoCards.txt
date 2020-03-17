@@ -242,6 +242,28 @@
           }
         }
       ]
+    },
+    {
+      "id": "Card9",
+      "type": "EquipCard",
+      "name": "Healing Totem",
+      "text": "(Equip) Heal for 2",
+	  "asset": "Card/HealingTotem",
+      "resource": "Mana",
+      "cost": 0,
+      "abilities": [
+        {
+          "action": "HealAction",
+          "info": 2,
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Ally",
+              "zone": "Party"
+            }
+          }
+        }
+      ]
     }
   ]
 }

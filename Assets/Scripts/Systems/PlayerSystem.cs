@@ -32,6 +32,7 @@ namespace Assets.Scripts.Systems
             this.AddObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.AddObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
             this.AddObserver(OnPerformBurnCards, Global.PerformNotification<BurnCardsAction>(), Container);
+            this.AddObserver(OnValidatePlayCard, Global.ValidateNotification<PlayCardAction>(), Container);
             this.AddObserver(OnPerformPlayCard, Global.PerformNotification<PlayCardAction>(), Container);
         }
 
@@ -44,6 +45,7 @@ namespace Assets.Scripts.Systems
             this.RemoveObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.RemoveObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
             this.RemoveObserver(OnPerformBurnCards, Global.PerformNotification<BurnCardsAction>(), Container);
+            this.RemoveObserver(OnValidatePlayCard, Global.ValidateNotification<PlayCardAction>(), Container);
             this.RemoveObserver(OnPerformPlayCard, Global.PerformNotification<PlayCardAction>(), Container);
         }
 
@@ -116,6 +118,16 @@ namespace Assets.Scripts.Systems
                 var player = Container.GetAspect<DataSystem>().match.players[card.ownerIndex];
                 //this.PostNotification(GraveyardChangedNotification, player);
             }
+        }
+
+        void OnValidatePlayCard(object sender, object args)
+        {
+            var playCardAction = sender as PlayCardAction;
+            if (playCardAction.card.Type == CardType.Playable)
+                return;
+
+            var validator = args as Validator;
+            validator.Invalidate();
         }
 
         void OnPerformPlayCard(object sender, object args)

@@ -7,5 +7,7 @@
 		"Card5", "Card5",
 		"Card6", "Card6",
 		"Card7", "Card7",
+		"Card8", 
+		"Card9",
 	]
 }
