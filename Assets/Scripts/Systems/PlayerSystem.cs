@@ -32,6 +32,7 @@ namespace Assets.Scripts.Systems
             this.AddObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.AddObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
             this.AddObserver(OnPerformBurnCards, Global.PerformNotification<BurnCardsAction>(), Container);
+            this.AddObserver(OnPerformDiscardCards, Global.PerformNotification<DiscardCardsAction>(), Container);
             this.AddObserver(OnValidatePlayCard, Global.ValidateNotification<PlayCardAction>(), Container);
             this.AddObserver(OnPerformPlayCard, Global.PerformNotification<PlayCardAction>(), Container);
         }
@@ -45,6 +46,7 @@ namespace Assets.Scripts.Systems
             this.RemoveObserver(OnPerformFatigue, Global.PerformNotification<FatigueAction>(), Container);
             this.RemoveObserver(OnPerformOverDraw, Global.PerformNotification<OverdrawAction>(), Container);
             this.RemoveObserver(OnPerformBurnCards, Global.PerformNotification<BurnCardsAction>(), Container);
+            this.RemoveObserver(OnPerformDiscardCards, Global.PerformNotification<DiscardCardsAction>(), Container);
             this.RemoveObserver(OnValidatePlayCard, Global.ValidateNotification<PlayCardAction>(), Container);
             this.RemoveObserver(OnPerformPlayCard, Global.PerformNotification<PlayCardAction>(), Container);
         }
@@ -120,10 +122,22 @@ namespace Assets.Scripts.Systems
             }
         }
 
+        void OnPerformDiscardCards(object sender, object args)
+        {
+            var action = args as DiscardCardsAction;
+            foreach (Card card in action.cards)
+            {
+                ChangeZone(card, Zones.Graveyard);
+
+                var player = Container.GetAspect<DataSystem>().match.players[card.ownerIndex];
+                this.PostNotification(GraveyardChangedNotification, player);
+            }
+        }
+
         void OnValidatePlayCard(object sender, object args)
         {
-            var playCardAction = sender as PlayCardAction;
-            if (playCardAction.card.Type == CardType.Playable)
+            var action = sender as PlayCardAction;
+            if (!action.card.Type.Contains(CardType.Playable))
                 return;
 
             var validator = args as Validator;

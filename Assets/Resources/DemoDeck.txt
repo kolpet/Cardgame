@@ -9,5 +9,6 @@
 		"Card7", "Card7",
 		"Card8", 
 		"Card9",
+		"Card10",
 	]
 }

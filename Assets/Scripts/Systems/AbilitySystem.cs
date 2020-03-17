@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.AspectContainer;
 using Assets.Scripts.Common.Notifications;
+using Assets.Scripts.Enums;
 using Assets.Scripts.GameActions;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models.Abilities;
@@ -31,6 +32,9 @@ namespace Assets.Scripts.Systems
         void OnPerformPlayCardAction(object sender, object args)
         {
             var action = args as PlayCardAction;
+            if (!CardType.Effective.Contains(action.card.Type))
+                return;
+
             var abilities = action.card.GetAspects<Ability>();
             if(abilities != null)
             {

@@ -11,9 +11,9 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Systems
 {
-    public class EquipCardSystem : Aspect, IObserve
+    public class PassiveCardSystem : Aspect, IObserve
     {
-        List<Card> equips = new List<Card>();
+        List<Card> passives = new List<Card>();
 
         public void Awake()
         {
@@ -30,20 +30,28 @@ namespace Assets.Scripts.Systems
 
         private void OnPrepareNextTurn(object sender, object args)
         {
-            equips.Clear();
+            passives.Clear();
 
             //var action = args as NextTurnAction;
             var player = Container.GetMatch().CurrentPlayer as Player;
             if (player == null)
                 return;
             foreach (var card in player.hand)
-                if (card.Type == CardType.Equip)
-                    equips.Add(card);
+                if (card.Type == CardType.Passive)
+                    passives.Add(card);
+
+            foreach (var card in player.deck)
+                if (card.Type == CardType.Passive)
+                    passives.Add(card);
+
+            foreach (var card in player.graveyard)
+                if (card.Type == CardType.Passive)
+                    passives.Add(card);
         }
 
         private void OnPerformNextTurn(object sender, object args)
         {
-            foreach (var card in equips)
+            foreach (var card in passives)
             {
                 if (card == null)
                     return;

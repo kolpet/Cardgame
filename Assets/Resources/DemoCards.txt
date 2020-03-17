@@ -264,6 +264,27 @@
           }
         }
       ]
+    },
+    {
+      "id": "Card10",
+      "type": "PassiveCard",
+      "name": "Quick Hands",
+      "text": "(Passive) Discard your hand",
+	  "asset": "Card/QuickHands",
+      "resource": "Mana",
+      "cost": 0,
+      "abilities": [
+        {
+          "action": "DiscardCardsAction",
+          "targetSelector": {
+            "type": "AllTarget",
+            "mark": {
+              "alliance": "Ally",
+              "zone": "Hand"
+            }
+          }
+        }
+      ]
     }
   ]
 }
