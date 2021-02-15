@@ -7,28 +7,31 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Abilities;
 using Assets.Scripts.Models.Cards;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Systems
 {
     public class PassiveCardSystem : Aspect, IObserve
     {
-        List<Card> passives = new List<Card>();
+        public List<Card> passives = new List<Card>();
 
         public void Awake()
         {
-            this.AddObserver(OnPrepareNextTurn, Global.PrepareNotification<NextTurnAction>());
-            this.AddObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>());
+            //this.AddObserver(OnPrepareNextTurn, Global.PrepareNotification<NextTurnAction>());
+            //this.AddObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>());
+            this.AddObserver(OnDeckChanged, PlayerSystem.DeckChangedNotification);
         }
 
 
         public void Destroy()
         {
-            this.RemoveObserver(OnPrepareNextTurn, Global.PrepareNotification<NextTurnAction>());
-            this.RemoveObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>());
+            //this.RemoveObserver(OnPrepareNextTurn, Global.PrepareNotification<NextTurnAction>());
+            //this.RemoveObserver(OnPerformNextTurn, Global.PerformNotification<NextTurnAction>());
+            this.RemoveObserver(OnDeckChanged, PlayerSystem.DeckChangedNotification);
         }
 
-        private void OnPrepareNextTurn(object sender, object args)
+        private void OnDeckChanged(object sender, object args)
         {
             passives.Clear();
 
@@ -47,6 +50,11 @@ namespace Assets.Scripts.Systems
             foreach (var card in player.graveyard)
                 if (card.Type == CardType.Passive)
                     passives.Add(card);
+        }
+
+        private void OnPrepareNextTurn(object sender, object args)
+        {
+            
         }
 
         private void OnPerformNextTurn(object sender, object args)

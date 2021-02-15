@@ -94,6 +94,8 @@ namespace Assets.Scripts.Systems
             var hero = new Hero();
             hero.HitPoints = 30;
             hero.MaxHitPoints = 30;
+            hero.Armor = 0;
+            hero.MagicResist = 0;
             hero.ownerIndex = player.index;
             hero.zone = Zones.Party;
             player.party.Add(hero);

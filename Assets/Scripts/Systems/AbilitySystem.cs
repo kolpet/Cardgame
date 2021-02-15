@@ -6,10 +6,7 @@ using Assets.Scripts.GameActions;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models.Abilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Systems
 {
@@ -36,7 +33,7 @@ namespace Assets.Scripts.Systems
                 return;
 
             var abilities = action.card.GetAspects<Ability>();
-            if(abilities != null)
+            if (abilities != null)
             {
                 foreach (var ability in abilities)
                 {

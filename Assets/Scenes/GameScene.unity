@@ -1526,7 +1526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smokeMaterial: {fileID: 2100000, guid: a3d09901f1d45a84f8bdead18eeb4f76, type: 2}
-  smokeTime: 1
+  smokeTime: 0.5
 --- !u!1 &2082689563
 GameObject:
   m_ObjectHideFlags: 0

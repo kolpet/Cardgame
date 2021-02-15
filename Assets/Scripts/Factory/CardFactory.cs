@@ -100,6 +100,19 @@ namespace Assets.Scripts.Factory
 			return ability;
 		}
 
+		private static void AddAuras(Card card, Dictionary<string, object> data)
+		{
+			if (data.ContainsKey("auras") == false)
+				return;
+			var auras = (List<object>)data["auras"];
+			foreach (object entry in auras)
+			{
+				var auraData = (Dictionary<string, object>)entry;
+				Ability aura = AddAbility(card, auraData);
+				AddSelector(aura, auraData);
+			}
+		}
+
 		private static void AddSelector(Ability ability, Dictionary<string, object> data)
 		{
 			if (data.ContainsKey("targetSelector") == false)

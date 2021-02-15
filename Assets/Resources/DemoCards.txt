@@ -273,8 +273,10 @@
 	  "asset": "Card/QuickHands",
       "resource": "Mana",
       "cost": 0,
-      "abilities": [
+      "auras": [
         {
+          "type": "ReactionAura",
+          "event": "NextTurnAction",
           "action": "DiscardCardsAction",
           "targetSelector": {
             "type": "AllTarget",
